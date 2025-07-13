@@ -1,14 +1,36 @@
-const requester = require("request");
+var express = require('express');
+var router = express.Router();
+var bodyParser = require("body-parser");
+const requester = require('request');
 const axios = require('axios');
-const fs = require("fs");
-var app = express();
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.text({ type: "text/html" }));
-app.use(bodyParser.raw());
-app.set("port",process.env.PORT);
 
-app.post("*",function (req, res) { 
+var MersenneTwister = require('mersenne-twister');
+var generator = new MersenneTwister();
+
+router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+router.use(bodyParser.json({ limit: "50mb" }));
+router.use(bodyParser.text({ type: "text/html" }));
+router.use(bodyParser.raw());
+router.set("port",process.env.PORT);
+
+
+// import { LoremIpsum } from 'lorem-ipsum';
+const LoremIpsum = require('lorem-ipsum').LoremIpsum;
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
+});
+
+
+
+router.post("*",function (req, res) { 
 try{
   req.headers["STP_ip"]=req.headers["x-forwarded-for"].split(",")[0]
   req.headers["Content-Type"]="application/x-www-form-urlencoded"
@@ -45,7 +67,9 @@ try{
   }
 });
 
-app.get("*", function (req, res) {
+
+
+router.get("*",function (req, res) {
 try{
   req.headers["STP_ip"]=req.headers["x-forwarded-for"].split(",")[0]
   var head = req.headers;
@@ -76,4 +100,4 @@ try{
 });
 
 
-module.exports = app;
+module.exports = router;
