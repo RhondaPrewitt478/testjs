@@ -7,11 +7,6 @@ const axios = require('axios');
 var MersenneTwister = require('mersenne-twister');
 var generator = new MersenneTwister();
 
-router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-router.use(bodyParser.json({ limit: "50mb" }));
-router.use(bodyParser.text({ type: "text/html" }));
-router.use(bodyParser.raw());
-router.set("port",process.env.PORT);
 
 
 // import { LoremIpsum } from 'lorem-ipsum';
