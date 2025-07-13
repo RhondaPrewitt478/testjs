@@ -563,7 +563,7 @@ function randomPage(req, res) {
   var paragraphs = randomParagraphs(seed);
   var links = randomLinks(seed, req.hostname);
 
-  res.render('random', {title: title, paragraphs: paragraphs, links: links});
+  res.render('random', {title: title, paragraphs: "hello word df", links: links});
 }
 
 router.all('*', randomPage);
